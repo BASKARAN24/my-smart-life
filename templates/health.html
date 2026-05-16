@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Tracker - MySmartLife</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sky-blue: #0ea5e9;
+            --deep-sky: #0369a1;
+            --glass: rgba(255, 255, 255, 0.6);
+            --border: rgba(255, 255, 255, 0.7);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f0f9ff;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .bg-mesh {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(circle at 10% 20%, #bae6fd 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, #e0f2fe 0%, transparent 40%);
+            filter: blur(80px);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.8s ease-out;
+            text-align: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #0369a1, #0ea5e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle { color: #64748b; margin-bottom: 30px; font-size: 14px; }
+
+        .form-group { margin-bottom: 20px; text-align: left; }
+
+        label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px; color: #475569; }
+
+        input, select {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            background: white;
+            font-family: inherit;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--sky-blue);
+            box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: var(--sky-blue);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: var(--deep-sky);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(14, 165, 233, 0.2);
+        }
+
+        .result-card {
+            margin-top: 30px;
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            border-left: 5px solid var(--sky-blue);
+            text-align: left;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .workout-list { list-style: none; margin-top: 10px; }
+        .workout-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 14px;
+            color: #334155;
+            display: flex;
+            align-items: center;
+        }
+        .workout-list li:last-child { border-bottom: none; }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 25px;
+            text-decoration: none;
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh"></div>
+
+    <div class="container">
+        <h2>Health Tracker 🏃‍♀️</h2>
+        <p class="subtitle">AI-powered calorie and workout calculation.</p>
+
+        <form method="POST">
+            <div class="form-group">
+                <label>Age</label>
+                <input type="number" name="age" placeholder="e.g. 25" required>
+            </div>
+
+            <div style="display: flex; gap: 15px;">
+                <div class="form-group" style="flex: 1;">
+                    <label>Weight (kg)</label>
+                    <input type="number" name="weight" placeholder="70" required>
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label>Height (cm)</label>
+                    <input type="number" name="height" placeholder="175" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Activity Level</label>
+                <select name="activity">
+                    <option value="1">Low (Sedentary)</option>
+                    <option value="2">Moderate (Active)</option>
+                    <option value="3">High (Athlete)</option>
+                </select>
+            </div>
+
+            <button type="submit">Predict Calories</button>
+        </form>
+
+        {% if calories %}
+        <div class="result-card">
+            <p style="font-size: 14px; color: #64748b; margin-bottom: 5px;">Estimated Daily Burn:</p>
+            <h3 style="font-size: 32px; color: var(--deep-sky); margin-bottom: 20px;">{{ calories }} <span style="font-size: 16px; font-weight: 400;">kcal</span></h3>
+            
+            <div style="background: rgba(14, 165, 233, 0.05); padding: 15px; border-radius: 15px;">
+                <p style="font-weight: 700; font-size: 14px; margin-bottom: 5px; color: var(--deep-sky);">✨ Smart Recommendations:</p>
+                <ul class="workout-list">
+                    {% for tip in workout_tips %}
+                        <li>{{ tip }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+
+        <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+    </div>
+
+</body>
+</html>

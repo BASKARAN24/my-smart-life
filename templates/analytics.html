@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - MySmartLife</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sky-blue: #0ea5e9;
+            --deep-sky: #0369a1;
+            --glass: rgba(255, 255, 255, 0.6);
+            --border: rgba(255, 255, 255, 0.7);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f0f9ff;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .bg-mesh {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(circle at 10% 20%, #bae6fd 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, #e0f2fe 0%, transparent 40%);
+            filter: blur(80px);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #0369a1, #0ea5e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .chart-card {
+            background: white;
+            padding: 20px;
+            border-radius: 24px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        .stats-summary {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value { font-size: 20px; font-weight: 800; color: var(--deep-sky); }
+        .stat-label { font-size: 12px; color: #64748b; font-weight: 600; }
+
+        .back-link {
+            text-decoration: none;
+            color: #94a3b8;
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .back-link:hover { color: var(--sky-blue); }
+
+        @media (max-width: 650px) {
+            .chart-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh"></div>
+
+    <div class="container">
+        <h2>Health Analytics Dashboard</h2>
+
+        <div class="stats-summary">
+            <div class="stat-item">
+                <div class="stat-value">{{data.calories}}</div>
+                <div class="stat-label">CALORIES</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">{{data.protein}}g</div>
+                <div class="stat-label">PROTEIN</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">{{data.carbs}}g</div>
+                <div class="stat-label">CARBS</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">{{data.fat}}g</div>
+                <div class="stat-label">FAT</div>
+            </div>
+        </div>
+
+        <div class="chart-grid">
+            <div class="chart-card">
+                <p style="font-weight: 700; margin-bottom: 15px; color: #64748b;">Macro Split</p>
+                <canvas id="macroChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <p style="font-weight: 700; margin-bottom: 15px; color: #64748b;">Nutrient Volume</p>
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+
+        <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+    </div>
+
+    <script>
+        // Common Data
+        const labels = ['Protein', 'Carbs', 'Fat'];
+        const values = [{{data.protein}}, {{data.carbs}}, {{data.fat}}];
+        const colors = ['#0ea5e9', '#38bdf8', '#bae6fd'];
+
+        // Doughnut Chart
+        new Chart(document.getElementById('macroChart'), {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: values,
+                    backgroundColor: colors,
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                plugins: { legend: { position: 'bottom' } },
+                cutout: '70%'
+            }
+        });
+
+        // Bar Chart
+        new Chart(document.getElementById('barChart'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Grams',
+                    data: values,
+                    backgroundColor: colors,
+                    borderRadius: 10
+                }]
+            },
+            options: {
+                scales: { y: { beginAtZero: true, grid: { display: false } } },
+                plugins: { legend: { display: false } }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - MySmartLife</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sky-blue: #0ea5e9;
+            --deep-sky: #0369a1;
+            --glass-white: rgba(255, 255, 255, 0.55);
+            --border-white: rgba(255, 255, 255, 0.7);
+            --input-bg: rgba(255, 255, 255, 0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f9ff;
+            overflow: hidden;
+            color: #1e293b;
+        }
+
+        /* Animated Mesh Background (Consistent with Home) */
+        .background-blobs {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            filter: blur(80px);
+            background: radial-gradient(circle at 20% 30%, #bae6fd 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, #e0f2fe 0%, transparent 40%),
+                        radial-gradient(circle at 50% 50%, #f0f9ff 0%, transparent 50%);
+            animation: move-bg 20s infinite alternate;
+        }
+
+        @keyframes move-bg {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.1) translate(20px, 20px); }
+        }
+
+        .login-card {
+            background: var(--glass-white);
+            backdrop-filter: blur(25px) saturate(160%);
+            -webkit-backdrop-filter: blur(25px) saturate(160%);
+            padding: 50px 40px;
+            border-radius: 40px;
+            border: 1px solid var(--border-white);
+            box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            animation: scale-in 1s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        @keyframes scale-in {
+            from { opacity: 0; transform: scale(0.95) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -1.2px;
+            background: linear-gradient(135deg, #0369a1, #0ea5e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #64748b;
+            margin-bottom: 35px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            background: var(--input-bg);
+            font-family: inherit;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+            color: #1e293b;
+        }
+
+        input:focus {
+            background: white;
+            border-color: var(--sky-blue);
+            box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+            transform: translateY(-1px);
+        }
+
+        /* Styling placeholder */
+        input::placeholder {
+            color: #94a3b8;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 18px;
+            border-radius: 16px;
+            background: var(--sky-blue);
+            color: white;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            margin-top: 10px;
+            box-shadow: 0 10px 20px -5px rgba(14, 165, 233, 0.4);
+        }
+
+        .btn-submit:hover {
+            background: var(--deep-sky);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px -5px rgba(14, 165, 233, 0.5);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .footer-text {
+            margin-top: 35px;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .footer-text a {
+            color: var(--sky-blue);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .footer-text a:hover {
+            color: var(--deep-sky);
+            text-decoration: underline;
+        }
+
+        .forgot-pass {
+            display: block;
+            margin-top: 12px;
+            font-size: 13px;
+            color: #94a3b8;
+            text-decoration: none;
+        }
+
+        .forgot-pass:hover {
+            color: var(--sky-blue);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background-blobs"></div>
+
+    <div class="login-card">
+        <div class="logo-text">MySmartLife</div>
+        <h2>Welcome Back</h2>
+        
+        <form action="/login" method="POST">
+            <div class="input-group">
+                <input type="email" name="email" placeholder="Email Address" required>
+            </div>
+            <div class="input-group">
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            
+            <button type="submit" class="btn-submit">Sign In</button>
+            
+            <a href="/forgot" class="forgot-pass">Forgot your password?</a>
+        </form>
+        
+        <div class="footer-text">
+            Don't have an account? <a href="/register">Create one</a>
+        </div>
+    </div>
+
+</body>
+</html>

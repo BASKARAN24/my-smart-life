@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Diet Plan - MySmartLife</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sky-blue: #0ea5e9;
+            --deep-sky: #0369a1;
+            --glass: rgba(255, 255, 255, 0.6);
+            --border: rgba(255, 255, 255, 0.7);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f0f9ff;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .bg-mesh {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(circle at 10% 20%, #bae6fd 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, #e0f2fe 0%, transparent 40%);
+            filter: blur(80px);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--border);
+            padding: 50px;
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-align: center;
+            background: linear-gradient(135deg, #0369a1, #0ea5e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle { text-align: center; color: #64748b; margin-bottom: 40px; }
+
+        form {
+            background: white;
+            padding: 25px;
+            border-radius: 24px;
+            display: flex;
+            gap: 15px;
+            align-items: flex-end;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+            margin-bottom: 50px;
+        }
+
+        .form-group { flex: 1; }
+        
+        label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 14px; color: #475569; }
+
+        select {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        button {
+            padding: 14px 25px;
+            background: var(--sky-blue);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: var(--deep-sky);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(14, 165, 233, 0.3);
+        }
+
+        /* Meal Timeline Styling */
+        .meal-timeline { position: relative; }
+
+        .meal-card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0,0,0,0.02);
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            transition: 0.3s;
+        }
+
+        .meal-card:hover { transform: scale(1.02); box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
+
+        .meal-icon {
+            font-size: 30px;
+            background: #f0f9ff;
+            padding: 15px;
+            border-radius: 18px;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .meal-content h3 { font-size: 18px; font-weight: 800; color: var(--deep-sky); margin-bottom: 10px; }
+
+        ul { list-style: none; }
+
+        li {
+            font-size: 15px;
+            color: #475569;
+            padding: 5px 0;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+        li:last-child { border-bottom: none; }
+
+        .cal-badge {
+            font-weight: 700;
+            color: var(--sky-blue);
+            font-size: 13px;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 40px;
+            text-decoration: none;
+            color: #94a3b8;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .back-link:hover { color: var(--sky-blue); }
+
+        @media (max-width: 600px) {
+            form { flex-direction: column; }
+            .meal-card { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh"></div>
+
+    <div class="container">
+        <h1>🥗 AI Diet Plan</h1>
+        <p class="subtitle">Personalized nutrition based on your metabolic goals.</p>
+
+        <form method="POST">
+            <div class="form-group">
+                <label>Target Goal</label>
+                <select name="goal">
+                    <option value="weight_loss">Weight Loss (Deficit)</option>
+                    <option value="muscle_gain">Muscle Gain (Surplus)</option>
+                </select>
+            </div>
+            <button type="submit">Generate Plan</button>
+        </form>
+
+        {% if meal_plan %}
+        <div class="meal-timeline">
+            
+            <div class="meal-card">
+                <div class="meal-icon">🍳</div>
+                <div class="meal-content">
+                    <h3>Breakfast</h3>
+                    <ul>
+                        {% for food in meal_plan.breakfast %}
+                        <li>{{ food.Food }} <span class="cal-badge">{{ food.Calories }} kcal</span></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="meal-card">
+                <div class="meal-icon">🥐</div>
+                <div class="meal-content">
+                    <h3>Brunch</h3>
+                    <ul>
+                        {% for food in meal_plan.brunch %}
+                        <li>{{ food.Food }} <span class="cal-badge">{{ food.Calories }} kcal</span></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="meal-card">
+                <div class="meal-icon">🍛</div>
+                <div class="meal-content">
+                    <h3>Lunch</h3>
+                    <ul>
+                        {% for food in meal_plan.lunch %}
+                        <li>{{ food.Food }} <span class="cal-badge">{{ food.Calories }} kcal</span></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="meal-card">
+                <div class="meal-icon">🍎</div>
+                <div class="meal-content">
+                    <h3>Snacks</h3>
+                    <ul>
+                        {% for food in meal_plan.snacks %}
+                        <li>{{ food.Food }} <span class="cal-badge">{{ food.Calories }} kcal</span></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="meal-card">
+                <div class="meal-icon">🍲</div>
+                <div class="meal-content">
+                    <h3>Dinner</h3>
+                    <ul>
+                        {% for food in meal_plan.dinner %}
+                        <li>{{ food.Food }} <span class="cal-badge">{{ food.Calories }} kcal</span></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        {% endif %}
+
+        <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+    </div>
+
+</body>
+</html>

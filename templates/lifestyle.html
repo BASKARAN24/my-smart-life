@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifestyle Advisor - MySmartLife</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sky-blue: #0ea5e9;
+            --deep-sky: #0369a1;
+            --glass: rgba(255, 255, 255, 0.6);
+            --border: rgba(255, 255, 255, 0.7);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f0f9ff;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Animated Mesh Background */
+        .bg-mesh {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(circle at 10% 20%, #bae6fd 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, #e0f2fe 0%, transparent 40%);
+            filter: blur(80px);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 30px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-align: center;
+            background: linear-gradient(135deg, #0369a1, #0ea5e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle { text-align: center; color: #64748b; margin-bottom: 30px; font-size: 15px; }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-group { margin-bottom: 15px; text-align: left; }
+
+        label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 13px; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        input {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 15px;
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            background: white;
+            font-family: inherit;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--sky-blue);
+            box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: var(--sky-blue);
+            color: white;
+            border: none;
+            border-radius: 18px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: var(--deep-sky);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(14, 165, 233, 0.2);
+        }
+
+        /* Advice Card Styling */
+        .advice-card {
+            margin-top: 35px;
+            background: white;
+            padding: 25px;
+            border-radius: 25px;
+            text-align: left;
+            border: 1px solid #e0f2fe;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .advice-card h3 { 
+            color: var(--deep-sky); 
+            font-size: 18px; 
+            margin-bottom: 15px; 
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tip-list { list-style: none; }
+
+        .tip-list li {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background: #f8fafc;
+            border-radius: 12px;
+            font-size: 14px;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid var(--sky-blue);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            text-decoration: none;
+            color: #94a3b8;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .back-link:hover { color: var(--sky-blue); }
+
+        @media (max-width: 500px) {
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh"></div>
+
+    <div class="container">
+        <h2>🧠 Lifestyle Advisor</h2>
+        <p class="subtitle">Analyze your daily habits for optimal performance.</p>
+
+        <form method="POST">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Sleep (Hours)</label>
+                    <input type="number" step="0.1" name="sleep" placeholder="e.g. 7.5" required>
+                </div>
+                <div class="form-group">
+                    <label>Water (Liters)</label>
+                    <input type="number" step="0.1" name="water" placeholder="e.g. 2.0" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Stress Level (1 - 10)</label>
+                <input type="number" name="stress" min="1" max="10" placeholder="How stressed are you?" required>
+            </div>
+
+            <button type="submit">Generate Wellness Plan</button>
+        </form>
+
+        {% if advice %}
+        <div class="advice-card">
+            <h3>✨ AI Recommendations</h3>
+            <ul class="tip-list">
+                {% for tip in advice %}
+                <li>
+                    <span>⚡</span> {{ tip }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+    </div>
+
+</body>
+</html>

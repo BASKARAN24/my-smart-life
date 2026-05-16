@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager - MySmartLife</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sky-blue: #0ea5e9;
+            --deep-sky: #0369a1;
+            --glass: rgba(255, 255, 255, 0.6);
+            --border: rgba(255, 255, 255, 0.7);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f0f9ff;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        /* Animated Mesh Background */
+        .bg-mesh {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(circle at 10% 20%, #bae6fd 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, #e0f2fe 0%, transparent 40%);
+            filter: blur(80px);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 35px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 25px;
+            text-align: center;
+            background: linear-gradient(135deg, #0369a1, #0ea5e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Input Styling */
+        .task-form {
+            display: flex;
+            gap: 10px;
+            background: white;
+            padding: 8px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+            margin-bottom: 30px;
+            border: 1px solid rgba(14, 165, 233, 0.1);
+        }
+
+        input {
+            flex: 1;
+            padding: 12px 18px;
+            border: none;
+            outline: none;
+            font-family: inherit;
+            font-size: 15px;
+            background: transparent;
+        }
+
+        .add-btn {
+            padding: 12px 25px;
+            background: var(--sky-blue);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .add-btn:hover {
+            background: var(--deep-sky);
+            transform: scale(1.02);
+        }
+
+        /* Task List Styling */
+        ul { list-style: none; }
+
+        li {
+            background: white;
+            margin-bottom: 12px;
+            padding: 18px 22px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: 0.3s;
+            animation: slideIn 0.4s ease-out;
+            border: 1px solid transparent;
+        }
+
+        li:hover {
+            border-color: var(--sky-blue);
+            transform: translateX(5px);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .task-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .check-circle {
+            width: 22px;
+            height: 22px;
+            border: 2px solid #e2e8f0;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .task-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        /* Delete Button */
+        .delete-btn {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 800;
+            font-size: 18px;
+            padding: 5px 12px;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .delete-btn:hover {
+            background: #fee2e2;
+            color: #ef4444;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 0;
+            color: #94a3b8;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+            text-decoration: none;
+            color: #94a3b8;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .back-link:hover { color: var(--sky-blue); }
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh"></div>
+
+    <div class="container">
+        <h2>✅ Daily Tasks</h2>
+
+        <form class="task-form" method="POST">
+            <input type="text" name="task" placeholder="What needs to be done?" required>
+            <button type="submit" class="add-btn">Add Task</button>
+        </form>
+
+        <ul>
+            {% if tasks %}
+                {% for task in tasks %}
+                <li>
+                    <div class="task-info">
+                        <span class="check-circle"></span>
+                        <span class="task-text">{{ task[1] }}</span>
+                    </div>
+                    
+                    <a href="/delete_task/{{ task[0] }}" class="delete-btn" title="Complete Task">✕</a>
+                </li>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <p>✨ Your schedule is clear. Enjoy your day!</p>
+                </div>
+            {% endif %}
+        </ul>
+
+        <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+    </div>
+
+</body>
+</html>

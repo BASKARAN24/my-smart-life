@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MySmartLife | Premium AI Experience</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sky-blue: #0ea5e9;
+            --deep-sky: #0369a1;
+            --glass-white: rgba(255, 255, 255, 0.55);
+            --border-white: rgba(255, 255, 255, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f9ff;
+            overflow: hidden;
+            color: #1e293b;
+        }
+
+        /* Animated Mesh Background */
+        .background-blobs {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            filter: blur(80px);
+            background: radial-gradient(circle at 20% 30%, #bae6fd 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, #e0f2fe 0%, transparent 40%),
+                        radial-gradient(circle at 50% 50%, #f0f9ff 0%, transparent 50%);
+            animation: move-bg 20s infinite alternate;
+        }
+
+        @keyframes move-bg {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.1) translate(20px, 20px); }
+        }
+
+        /* Floating glass orb decorations */
+        .orb {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(125, 211, 252, 0.3));
+            border-radius: 50%;
+            z-index: -1;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-white);
+            animation: float 10s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-40px) rotate(15deg); }
+        }
+
+        /* The Premium Card */
+        .card {
+            background: var(--glass-white);
+            backdrop-filter: blur(25px) saturate(160%);
+            -webkit-backdrop-filter: blur(25px) saturate(160%);
+            padding: 60px 45px;
+            border-radius: 40px;
+            border: 1px solid var(--border-white);
+            box-shadow: 
+                0 40px 80px -20px rgba(0, 0, 0, 0.08),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+            width: 100%;
+            max-width: 460px;
+            text-align: center;
+            position: relative;
+            animation: scale-in 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        @keyframes scale-in {
+            from { opacity: 0; transform: scale(0.9) translateY(30px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .brand-logo {
+            margin-bottom: 30px;
+            display: inline-flex;
+            padding: 15px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(14, 165, 233, 0.1);
+        }
+
+        .brand-logo svg {
+            width: 40px;
+            height: 40px;
+            fill: url(#gradient);
+        }
+
+        .logo-text {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            background: linear-gradient(135deg, #0369a1, #0ea5e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        .description {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #334155;
+            margin-bottom: 45px;
+            font-weight: 400;
+        }
+
+        .cta-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 20px 30px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            display: block;
+        }
+
+        .btn-primary {
+            background: var(--sky-blue);
+            color: white;
+            border: none;
+            box-shadow: 0 15px 30px -5px rgba(14, 165, 233, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--deep-sky);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px -10px rgba(14, 165, 233, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.5);
+            color: var(--deep-sky);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            border-color: var(--sky-blue);
+            transform: translateY(-3px);
+        }
+
+        .footer-note {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .footer-note a {
+            color: var(--sky-blue);
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-note a:hover { color: var(--deep-sky); }
+    </style>
+</head>
+<body>
+
+    <div class="background-blobs"></div>
+    
+    <div class="orb" style="width: 200px; height: 200px; top: 10%; left: 10%; animation-delay: 0s;"></div>
+    <div class="orb" style="width: 150px; height: 150px; bottom: 15%; right: 15%; animation-delay: -5s;"></div>
+
+    <div class="card">
+        <div class="brand-logo">
+            <svg viewBox="0 0 24 24">
+                <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#0369a1;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#0ea5e9;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
+            </svg>
+        </div>
+        
+        <div class="logo-text">MySmartLife</div>
+        <h1>The Intelligent Ecosystem</h1>
+        
+        <p class="description">
+            Experience the future of productivity with an ecosystem designed for peak performance and balance.
+        </p>
+
+        <div class="cta-group">
+            <a href="/login" class="btn btn-primary">Sign In to Dashboard</a>
+            <a href="/register" class="btn btn-secondary">Create Professional Account</a>
+        </div>
+
+        <div class="footer-note">
+            Need assistance? <a href="/support">Contact Support</a>
+        </div>
+    </div>
+
+</body>
+</html>

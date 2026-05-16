@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Tracker - MySmartLife</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sky-blue: #0ea5e9;
+            --deep-sky: #0369a1;
+            --glass: rgba(255, 255, 255, 0.6);
+            --border: rgba(255, 255, 255, 0.7);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f0f9ff;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .bg-mesh {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(circle at 10% 20%, #bae6fd 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, #e0f2fe 0%, transparent 40%);
+            filter: blur(80px);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--border);
+            padding: 45px;
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.8s ease-out;
+            text-align: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 30px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #0369a1, #0ea5e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle { color: #64748b; margin-bottom: 35px; font-size: 15px; }
+
+        /* Modern Radio Buttons for Mood */
+        .mood-selector {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .mood-option {
+            cursor: pointer;
+        }
+
+        .mood-option input { display: none; }
+
+        .mood-box {
+            background: white;
+            padding: 15px;
+            border-radius: 20px;
+            border: 2px solid transparent;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        .mood-box span { font-size: 24px; }
+        .mood-label { font-size: 12px; font-weight: 700; color: #64748b; }
+
+        .mood-option input:checked + .mood-box {
+            border-color: var(--sky-blue);
+            background: #f0f9ff;
+            transform: translateY(-5px);
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: var(--sky-blue);
+            color: white;
+            border: none;
+            border-radius: 18px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: var(--deep-sky);
+            box-shadow: 0 10px 20px rgba(14, 165, 233, 0.2);
+        }
+
+        /* History List */
+        .history-section { margin-top: 40px; text-align: left; }
+        .history-section h3 { font-size: 18px; color: var(--deep-sky); margin-bottom: 20px; font-weight: 800; }
+
+        .mood-log {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 18px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .log-mood { font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 10px; }
+        .log-date { font-size: 12px; color: #94a3b8; }
+
+        .back-link {
+            display: block;
+            margin-top: 30px;
+            text-decoration: none;
+            color: #94a3b8;
+            font-weight: 600;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh"></div>
+
+    <div class="container">
+        <h2>How are you today?</h2>
+        <p class="subtitle">Track your mental well-being over time.</p>
+
+        <form method="POST">
+            <div class="mood-selector">
+                <label class="mood-option">
+                    <input type="radio" name="mood" value="Happy" checked>
+                    <div class="mood-box"><span>😊</span><p class="mood-label">Happy</p></div>
+                </label>
+                <label class="mood-option">
+                    <input type="radio" name="mood" value="Sad">
+                    <div class="mood-box"><span>😢</span><p class="mood-label">Sad</p></div>
+                </label>
+                <label class="mood-option">
+                    <input type="radio" name="mood" value="Stressed">
+                    <div class="mood-box"><span>😫</span><p class="mood-label">Stressed</p></div>
+                </label>
+                <label class="mood-option">
+                    <input type="radio" name="mood" value="Relaxed">
+                    <div class="mood-box"><span>😌</span><p class="mood-label">Relaxed</p></div>
+                </label>
+            </div>
+            <button type="submit">Log Mood</button>
+        </form>
+
+        <div class="history-section">
+            <h3>Recent Logs</h3>
+            {% if moods %}
+                {% for mood in moods %}
+                <div class="mood-log">
+                    <div class="log-mood">
+                        {% if mood[1] == 'Happy' %} 😊 
+                        {% elif mood[1] == 'Sad' %} 😢 
+                        {% elif mood[1] == 'Stressed' %} 😫 
+                        {% elif mood[1] == 'Relaxed' %} 😌 
+                        {% endif %}
+                        {{ mood[1] }}
+                    </div>
+                    <div class="log-date">{{ mood[2] }}</div> </div>
+                {% endfor %}
+            {% else %}
+                <p style="color: #94a3b8; text-align: center;">No logs yet. How do you feel?</p>
+            {% endif %}
+        </div>
+
+        <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+    </div>
+
+</body>
+</html>
